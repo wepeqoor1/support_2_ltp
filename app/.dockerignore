@@ -1,0 +1,10 @@
+.git
+Dockerfile
+.DS_Store
+.gitignore
+README.md
+venv
+web/node_modules
+web/yarn.lock
+web/yarn-error.log
+web/components/StatFiscalSendQue
