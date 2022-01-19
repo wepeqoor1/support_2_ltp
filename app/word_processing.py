@@ -4,18 +4,15 @@ def process_scratchcards(result: dict) -> dict:
         item["status_change_date"] = (
             str(item["status_change_date"]).replace("T", " ").split(".")[0]
         )
-        if item["status"] == 0:
-            item["status" ] = "Выпущена"  
-        elif item["status"] == 1:
-            item["status"] = "Продана, ждет активации"
-        elif item["status"] == 2:
-            item["status"] = "Активарована"
-        elif item["status"] == 3:
-            item["status"] = "Повреждена"
-        elif item["status"] == 4:
-            item["status"] = "Возврат"
-        elif item["status"] == 5:
-            item["status"] = "Выведена из оборота"
+        status_dict = {
+            0: 'Выпущена',
+            1: 'Продана, ждет активации',
+            2: 'Активарована',
+            3: 'Повреждена',
+            4: 'Возврат',
+            5: 'Выведена из оборота'
+        }
+        item["status"] = status_dict.get(item["status"])
 
         rnms_items = []
         if item["items"] is not None:
@@ -90,7 +87,7 @@ def process_kkt(result: list) -> dict:
 
 
 
-def process_super_user_login_password(result: list) -> dict:
+def process_super_user_login_password(result: list) -> list:
 # [{'contract_id': '001562186253', 'user_password': 'hCl4REOkj', 'user_login': None}]
     for item in result:
         for key, value in item.items():
