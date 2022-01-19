@@ -32,7 +32,7 @@ def process_scratchcards(result: dict) -> dict:
     return result
 
 
-def process_stat_fiscal_doc_sender_queue(result: dict) -> dict:
+def process_stat_fiscal_doc_sender_queue(result: list) -> dict:
 
     for item in result:
         if item["kkts"]:
@@ -63,7 +63,7 @@ def process_stat_fiscal_doc_sender_queue(result: dict) -> dict:
 
 
 
-def process_kkt(result: dict) -> dict:
+def process_kkt(result: list) -> dict:
 
     for item in result:
         if item["activated"] == True:
@@ -90,7 +90,7 @@ def process_kkt(result: dict) -> dict:
 
 
 
-def process_super_user_login_password(result: dict) -> dict:
+def process_super_user_login_password(result: list) -> dict:
 # [{'contract_id': '001562186253', 'user_password': 'hCl4REOkj', 'user_login': None}]
     for item in result:
         for key, value in item.items():
