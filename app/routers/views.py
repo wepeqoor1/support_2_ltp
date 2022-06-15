@@ -49,8 +49,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 def get_user(username: str):
-    user_dict = get_user_in_db(login=username)
-    if user_dict:
+    if user_dict := get_user_in_db(login=username):
         return UserInDB(**user_dict)
 
 
@@ -67,9 +66,8 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
         expire = datetime.utcnow() + expires_delta
     else:
         expire = datetime.utcnow() + timedelta(minutes=15)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
+    to_encode["exp"] = expire
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
@@ -123,43 +121,35 @@ async def read_users_me(current_user: User = Depends(get_current_active_user)):
 async def scratchcard(
     scratchcard_code: str, current_user: User = Depends(get_current_active_user)
 ):
-    result = get_scratchcards(str(scratchcard_code))
-    return result
+    return get_scratchcards(scratchcard_code)
 
 
 @router.get("/api/users/scratchcard_number/{scratchcard_number}")
 async def scratchcard_number(
     scratchcard_number: str, current_user: User = Depends(get_current_active_user)
 ):
-    result = get_scratchcards_number(str(scratchcard_number))
-    return result
+    return get_scratchcards_number(scratchcard_number)
 
 
 @router.get("/api/users/stat_fiscal_doc_sender_queue/user_mail/{user_mail}")
 async def stat_fiscal_doc_sender_queue_user_mail(
     user_mail: str, current_user: User = Depends(get_current_active_user)
 ):
-    result = get_stat_fiscal_doc_sender_queue_user_email(str(user_mail))
-
-    return result
+    return get_stat_fiscal_doc_sender_queue_user_email(user_mail)
 
 
 @router.get("/api/users/stat_fiscal_doc_sender_queue/user_inn/{user_inn}")
 async def stat_fiscal_doc_sender_queue_user_inn(
     user_inn: str, current_user: User = Depends(get_current_active_user)
 ):
-    result = get_stat_fiscal_doc_sender_queue_user_inn(str(user_inn))
-
-    return result
+    return get_stat_fiscal_doc_sender_queue_user_inn(user_inn)
 
 
 @router.get("/api/users/stat_fiscal_doc_sender_queue/")
 async def stat_fiscal_doc_sender_queue(
     current_user: User = Depends(get_current_active_user),
 ):
-    result = get_stat_fiscal_doc_sender_queue_unloading_checks()
-
-    return result
+    return get_stat_fiscal_doc_sender_queue_unloading_checks()
 
 
 @router.get("/api/users/kkt/rnm/{rnm}")
@@ -167,9 +157,7 @@ async def kkt_for_rnm(
     rnm: str,
     current_user: User = Depends(get_current_active_user),
 ):
-    result = get_kkt_for_rnm(rnm)
-
-    return result
+    return get_kkt_for_rnm(rnm)
 
 
 @router.get("/api/users/kkt/fn/{fn}")
@@ -177,9 +165,7 @@ async def kkt_for_fn(
     fn: str,
     current_user: User = Depends(get_current_active_user),
 ):
-    result = get_kkt_for_fn(fn)
-
-    return result
+    return get_kkt_for_fn(fn)
 
 
 @router.get("/api/users/kkt/zn/{zn}")
@@ -187,9 +173,7 @@ async def kkt_for_zn(
     zn: str,
     current_user: User = Depends(get_current_active_user),
 ):
-    result = get_kkt_for_zn(zn)
-
-    return result
+    return get_kkt_for_zn(zn)
 
 
 @router.get("/api/users/super_user_login_password/{user_inn}")
@@ -197,6 +181,4 @@ async def super_user_login_password(
     user_inn: str,
     current_user: User = Depends(get_current_active_user),
 ):
-    result = get_super_user_login_password(user_inn) 
-
-    return result
+    return get_super_user_login_password(user_inn)
