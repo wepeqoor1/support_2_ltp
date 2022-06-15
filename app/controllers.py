@@ -109,11 +109,13 @@ def get_stat_fiscal_doc_sender_queue_unloading_checks() -> dict:
         )
         .filter(
             StatFiscalDocSenderQueue.error_count < 3,
-            StatFiscalDocSenderQueue.time_finish == None,
+            StatFiscalDocSenderQueue.time_finish is None,
         )
         .order_by(StatFiscalDocSenderQueue.id.desc())
         .limit(200)
-    ).all()
+        .all()
+    )
+
     session.rollback()
     result = [row._asdict() for row in result]
 

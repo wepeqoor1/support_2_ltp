@@ -19,8 +19,7 @@ def process_scratchcards(result: dict) -> dict:
 
         rnms_items = []
         if item["items"] is not None:
-            for rnm in item["items"]:
-                rnms_items.append(rnm["rnm"])
+            rnms_items.extend(rnm["rnm"] for rnm in item["items"])
         item["items"] = rnms_items
 
         if item["items"] == []:
